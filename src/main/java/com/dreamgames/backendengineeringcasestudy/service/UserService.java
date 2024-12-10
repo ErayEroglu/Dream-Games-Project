@@ -4,8 +4,6 @@ import com.dreamgames.backendengineeringcasestudy.model.User;
 import com.dreamgames.backendengineeringcasestudy.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class UserService {
 
@@ -17,12 +15,6 @@ public class UserService {
 
     public User createUser() {
         User user = new User();
-
-        User.ABTestGroup group = new Random().nextBoolean()
-                ? User.ABTestGroup.GroupA
-                : User.ABTestGroup.GroupB;
-        user.setABTestGroup(group);
-
         return userRepository.save(user);
     }
 
@@ -56,18 +48,6 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setHeliumCount(user.getHeliumCount() + amount);
-        return userRepository.save(user);
-    }
-
-    public User popBalloon(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        if (user.getCoins() < 100) {
-            throw new IllegalArgumentException("Not enough coins to pop a balloon");
-        }
-
-
         return userRepository.save(user);
     }
 

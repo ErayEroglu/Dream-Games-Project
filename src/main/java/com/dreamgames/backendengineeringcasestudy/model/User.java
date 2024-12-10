@@ -2,6 +2,8 @@ package com.dreamgames.backendengineeringcasestudy.model;
 
 import jakarta.persistence.*;
 
+import java.util.Random;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -30,6 +32,13 @@ public class User {
     public enum ABTestGroup {
         GroupA,
         GroupB
+    }
+
+    // Constructors
+    public User() {
+        this.abTestGroup = new Random().nextBoolean()
+                ? User.ABTestGroup.GroupA
+                : User.ABTestGroup.GroupB;
     }
 
     // Getters and Setters

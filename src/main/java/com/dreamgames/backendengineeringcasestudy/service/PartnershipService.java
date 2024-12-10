@@ -19,7 +19,11 @@ public class PartnershipService {
         this.partnershipRepository = partnershipRepository;
     }
 
-    public void sendPartnership(Long senderId, Long receiverId) {
+    public void sendPartnershipRequest(Long senderId, Long receiverId) {
+        if (senderId.equals(receiverId)) {
+            throw new IllegalArgumentException("Sender and receiver are the same user");
+        }
+
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User receiver = userRepository.findById(receiverId)
@@ -29,17 +33,17 @@ public class PartnershipService {
             throw new IllegalArgumentException("One or both users already have partners");
         }
 
+        if (sender.getAbTestGroup() != receiver.getAbTestGroup()) {
+            throw new IllegalArgumentException("Users are not in the same AB test group");
+        }
+
         Optional<Partnership> existingPartnership = findPartnership(sender, receiver);
 
         if (existingPartnership.isPresent()) {
             throw new IllegalArgumentException("A partnership request already exists between these users");
         }
 
-        Partnership partnership = new Partnership();
-        partnership.setSender(sender);
-        partnership.setReceiver(receiver);
-        partnership.setStatus(Partnership.PartnershipStatus.PENDING);
-
+        Partnership partnership = new Partnership(sender, receiver, Partnership.PartnershipStatus.PENDING);
         partnershipRepository.save(partnership);
     }
 
@@ -78,20 +82,37 @@ public class PartnershipService {
         return partnershipRepository.findByReceiverAndStatus(receiver, Partnership.PartnershipStatus.PENDING);
     }
 
+    public void endPartnership(Long senderId, Long receiverId) {
+        Partnership partnership = findPartnership(senderId, receiverId)
+                .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
+        User sender = partnership.getSender();
+        User receiver = partnership.getReceiver();
+
+        sender.setPartnerID(null);
+        receiver.setPartnerID(null);
+
+        userRepository.save(sender);
+        userRepository.save(receiver);
+
+        partnershipRepository.delete(partnership);
+    }
+
+    public void resetAllPartnerships() {
+        partnershipRepository.deleteAll();
+    }
+
+
+
     private Optional<Partnership> findPartnership(Long senderId, Long receiverId) {
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-        Partnership partnership = partnershipRepository.findBySenderAndReceiver(sender, receiver)
-                .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
-        return Optional.of(partnership);
+        return partnershipRepository.findBySenderAndReceiver(sender, receiver);
     }
 
     private Optional<Partnership> findPartnership(User sender, User receiver) {
-        Partnership partnership = partnershipRepository.findBySenderAndReceiver(sender, receiver)
-                .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
-        return Optional.of(partnership);
+        return partnershipRepository.findBySenderAndReceiver(sender, receiver);
     }
 
     //TODO: Implement the following methods:

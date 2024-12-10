@@ -1,6 +1,9 @@
 package com.dreamgames.backendengineeringcasestudy.model;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 @Entity
 @Table(name = "partnerships")
 public class Partnership {
@@ -19,6 +22,22 @@ public class Partnership {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PartnershipStatus status;
+
+    public Partnership() {
+        if (!isValidTime()) {
+            throw new IllegalArgumentException("Partnerships can only exist during sessions. And sessions can only be started between 08:00 and 22:00 UTC");
+        }
+    }
+
+    public Partnership(User sender, User receiver, PartnershipStatus status) {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        if (!isValidTime()) {
+            throw new IllegalArgumentException("Partnerships can only exist during sessions. And sessions can only be started between 08:00 and 22:00 UTC");
+        }
+        this.sender = sender;
+        this.receiver = receiver;
+        this.status = status;
+    }
 
     public enum PartnershipStatus {
         PENDING,
@@ -56,6 +75,13 @@ public class Partnership {
 
     public void setStatus(PartnershipStatus status) {
         this.status = status;
+    }
+
+    private boolean isValidTime() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        int hour = now.getHour();
+//        return hour >= 8 && hour <= 22;
+        return true; //TODO: Remove the comments in production
     }
 
     @Override

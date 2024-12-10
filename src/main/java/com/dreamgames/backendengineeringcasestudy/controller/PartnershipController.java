@@ -17,11 +17,11 @@ public class PartnershipController {
     }
 
     @PostMapping("/send/{senderId}/{receiverId}")
-    public ResponseEntity<Void> sendPartnership(
+    public ResponseEntity<Void> sendPartnershipRequest(
             @PathVariable Long senderId,
             @PathVariable Long receiverId
     ) {
-        partnershipService.sendPartnership(senderId, receiverId);
+        partnershipService.sendPartnershipRequest(senderId, receiverId);
         return ResponseEntity.ok().build();
     }
 
@@ -34,6 +34,18 @@ public class PartnershipController {
     @PostMapping("/reject/{senderId}/{receiverId}")
     public ResponseEntity<Void> rejectPartnership(@PathVariable Long senderId, @PathVariable Long receiverId) {
         partnershipService.rejectPartnership(senderId, receiverId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping ("/cancel/{senderId}/{receiverId}")
+    public ResponseEntity<Void> endPartnership(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        partnershipService.endPartnership(senderId, receiverId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset")
+    public ResponseEntity<Void> resetAllPartnerships() {
+        partnershipService.resetAllPartnerships();
         return ResponseEntity.ok().build();
     }
 
