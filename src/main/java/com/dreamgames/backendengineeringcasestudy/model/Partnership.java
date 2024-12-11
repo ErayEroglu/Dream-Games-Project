@@ -23,26 +23,36 @@ public class Partnership {
     @Column(nullable = false)
     private PartnershipStatus status;
 
+    public enum PartnershipStatus {
+        PENDING,
+        ACCEPTED,
+        REJECTED
+    }
+
+    @Column(nullable = true)
+    private int balloonProgress;
+
+    private int inflationThreshold;
+
     public Partnership() {
         if (!isValidTime()) {
-            throw new IllegalArgumentException("Partnerships can only exist during sessions. And sessions can only be started between 08:00 and 22:00 UTC");
+            throw new IllegalArgumentException("Partnerships can only exist during sessions. Sessions start at 08:00 and end at 22:00 UTC");
         }
     }
 
     public Partnership(User sender, User receiver, PartnershipStatus status) {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         if (!isValidTime()) {
-            throw new IllegalArgumentException("Partnerships can only exist during sessions. And sessions can only be started between 08:00 and 22:00 UTC");
+            throw new IllegalArgumentException("Partnerships can only exist during sessions. Sessions start at 08:00 and end at 22:00 UTC");
         }
         this.sender = sender;
         this.receiver = receiver;
         this.status = status;
-    }
 
-    public enum PartnershipStatus {
-        PENDING,
-        ACCEPTED,
-        REJECTED
+        if (status == PartnershipStatus.ACCEPTED) {
+            this.balloonProgress = 0;
+            this.inflationThreshold = sender.getAbTestGroup().equals(User.ABTestGroup.GroupA) ? 1000 : 1500;
+        }
     }
 
     public Long getId() {
@@ -77,11 +87,20 @@ public class Partnership {
         this.status = status;
     }
 
-    private boolean isValidTime() {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        int hour = now.getHour();
-//        return hour >= 8 && hour <= 22;
-        return true; //TODO: Remove the comments in production
+    public int getBalloonProgress() {
+        return balloonProgress;
+    }
+
+    public void setBalloonProgress(int balloonProgress) {
+        this.balloonProgress = balloonProgress;
+    }
+
+    public int getInflationThreshold() {
+        return inflationThreshold;
+    }
+
+    public void setInflationThreshold(int inflationThreshold) {
+        this.inflationThreshold = inflationThreshold;
     }
 
     @Override
@@ -91,6 +110,15 @@ public class Partnership {
                 ", sender=" + sender +
                 ", receiver=" + receiver +
                 ", status=" + status +
+                ", balloonProgress=" + balloonProgress +
+                ", inflationThreshold=" + inflationThreshold +
                 '}';
+    }
+
+    private boolean isValidTime() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        int hour = now.getHour();
+//        return hour >= 8 && hour <= 22;
+        return true; //TODO: Remove the comments in production
     }
 }

@@ -16,15 +16,6 @@ public class PartnershipController {
         this.partnershipService = partnershipService;
     }
 
-    @PostMapping("/send/{senderId}/{receiverId}")
-    public ResponseEntity<Void> sendPartnershipRequest(
-            @PathVariable Long senderId,
-            @PathVariable Long receiverId
-    ) {
-        partnershipService.sendPartnershipRequest(senderId, receiverId);
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/accept/{senderId}/{receiverId}")
     public ResponseEntity<Void> acceptPartnership(@PathVariable Long senderId, @PathVariable Long receiverId) {
         partnershipService.acceptPartnership(senderId, receiverId);

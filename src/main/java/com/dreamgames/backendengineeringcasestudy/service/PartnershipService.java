@@ -19,40 +19,20 @@ public class PartnershipService {
         this.partnershipRepository = partnershipRepository;
     }
 
-    public void sendPartnershipRequest(Long senderId, Long receiverId) {
-        if (senderId.equals(receiverId)) {
-            throw new IllegalArgumentException("Sender and receiver are the same user");
-        }
-
-        User sender = userRepository.findById(senderId)
-                .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
-        User receiver = userRepository.findById(receiverId)
-                .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-
-        if (sender.getPartnerID() != null || receiver.getPartnerID() != null) {
-            throw new IllegalArgumentException("One or both users already have partners");
-        }
-
-        if (sender.getAbTestGroup() != receiver.getAbTestGroup()) {
-            throw new IllegalArgumentException("Users are not in the same AB test group");
-        }
-
-        Optional<Partnership> existingPartnership = findPartnership(sender, receiver);
-
-        if (existingPartnership.isPresent()) {
-            throw new IllegalArgumentException("A partnership request already exists between these users");
-        }
-
-        Partnership partnership = new Partnership(sender, receiver, Partnership.PartnershipStatus.PENDING);
-        partnershipRepository.save(partnership);
-    }
-
     public void acceptPartnership(Long senderId, Long receiverId) {
         Partnership partnership = findPartnership(senderId, receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
 
         if (partnership.getStatus() != Partnership.PartnershipStatus.PENDING) {
             throw new IllegalArgumentException("Partnership is not pending");
+        }
+
+        // if one of the users matched with another user after the invitation was sent
+        // the partnership should be deleted from db
+        if (partnershipRepository.findAcceptedPartnership(senderId).isPresent() ||
+                partnershipRepository.findAcceptedPartnership(receiverId).isPresent()) {
+            partnershipRepository.delete(partnership);
+            throw new IllegalArgumentException("One of the users already has a partner");
         }
 
         User sender = partnership.getSender();
@@ -66,6 +46,12 @@ public class PartnershipService {
 
         partnership.setStatus(Partnership.PartnershipStatus.ACCEPTED);
         partnershipRepository.save(partnership);
+
+        List<Partnership> pendingPartnershipsForReceiver = getPendingPartnerships(receiverId);
+        partnershipRepository.deleteAll(pendingPartnershipsForReceiver);
+
+        List<Partnership> pendingPartnershipsForSender = getPendingPartnerships(senderId);
+        partnershipRepository.deleteAll(pendingPartnershipsForSender);
     }
 
     public void rejectPartnership(Long senderId, Long receiverId) {
@@ -100,8 +86,6 @@ public class PartnershipService {
     public void resetAllPartnerships() {
         partnershipRepository.deleteAll();
     }
-
-
 
     private Optional<Partnership> findPartnership(Long senderId, Long receiverId) {
         User sender = userRepository.findById(senderId)

@@ -14,11 +14,3 @@ CREATE TABLE IF NOT EXISTS partnerships (
                              FOREIGN KEY (sender_id) REFERENCES users(id),
                              FOREIGN KEY (receiver_id) REFERENCES users(id)
 );
-
-CREATE TABLE IF NOT EXISTS sessions (
-                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                        partnership_id BIGINT NOT NULL,
-                                        active BOOLEAN NOT NULL DEFAULT TRUE,
-                                        balloon_progress INT NOT NULL DEFAULT 0,
-                                        FOREIGN KEY (partnership_id) REFERENCES partnerships(id)
-);
