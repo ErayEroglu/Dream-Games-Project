@@ -6,6 +6,8 @@ import com.dreamgames.backendengineeringcasestudy.repository.PartnershipReposito
 import com.dreamgames.backendengineeringcasestudy.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,10 @@ public class PartnershipService {
     }
 
     public void acceptPartnership(Long senderId, Long receiverId) {
+        if (isNotaValidTime()) {
+            throw new IllegalArgumentException("Partnership can only be answered between 8:00 and 22:00");
+        }
+
         Partnership partnership = findPartnership(senderId, receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
 
@@ -55,6 +61,10 @@ public class PartnershipService {
     }
 
     public void rejectPartnership(Long senderId, Long receiverId) {
+        if (isNotaValidTime()) {
+            throw new IllegalArgumentException("Partnership can only be answered between 8:00 and 22:00");
+        }
+
         Partnership partnership = findPartnership(senderId, receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
 
@@ -88,15 +98,18 @@ public class PartnershipService {
         partnershipRepository.deleteAll();
     }
 
+    private boolean isNotaValidTime() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        int hour = now.getHour();
+//        return hour >= 8 && hour <= 22;
+        return true; //TODO: Remove the comments in production
+    }
+
     private Optional<Partnership> findPartnership(Long senderId, Long receiverId) {
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-        return partnershipRepository.findBySenderAndReceiver(sender, receiver);
-    }
-
-    private Optional<Partnership> findPartnership(User sender, User receiver) {
         return partnershipRepository.findBySenderAndReceiver(sender, receiver);
     }
 }

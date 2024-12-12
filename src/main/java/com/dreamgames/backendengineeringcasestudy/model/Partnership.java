@@ -35,15 +35,9 @@ public class Partnership {
     private int inflationThreshold;
 
     public Partnership() {
-        if (!isValidTime()) {
-            throw new IllegalArgumentException("Partnerships can only exist during sessions. Sessions start at 08:00 and end at 22:00 UTC");
-        }
     }
 
     public Partnership(User sender, User receiver, PartnershipStatus status) {
-        if (!isValidTime()) {
-            throw new IllegalArgumentException("Partnerships can only exist during sessions. Sessions start at 08:00 and end at 22:00 UTC");
-        }
         this.sender = sender;
         this.receiver = receiver;
         this.status = status;
@@ -95,12 +89,5 @@ public class Partnership {
             this.balloonProgress = 0;
             this.inflationThreshold = sender.getAbTestGroup().equals(User.ABTestGroup.GroupA) ? 1000 : 1500;
         }
-    }
-
-    private boolean isValidTime() {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        int hour = now.getHour();
-//        return hour >= 8 && hour <= 22;
-        return true; //TODO: Remove the comments in production
     }
 }
