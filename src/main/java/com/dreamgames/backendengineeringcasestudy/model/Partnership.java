@@ -48,11 +48,6 @@ public class Partnership {
         this.sender = sender;
         this.receiver = receiver;
         this.status = status;
-
-        if (status == PartnershipStatus.ACCEPTED) {
-            this.balloonProgress = 0;
-            this.inflationThreshold = sender.getAbTestGroup().equals(User.ABTestGroup.GroupA) ? 1000 : 1500;
-        }
     }
 
     public Long getId() {
@@ -113,6 +108,14 @@ public class Partnership {
                 ", balloonProgress=" + balloonProgress +
                 ", inflationThreshold=" + inflationThreshold +
                 '}';
+    }
+
+    public void updateStatus(PartnershipStatus status) {
+        this.status = status;
+        if (status == PartnershipStatus.ACCEPTED) {
+            this.balloonProgress = 0;
+            this.inflationThreshold = sender.getAbTestGroup().equals(User.ABTestGroup.GroupA) ? 1000 : 1500;
+        }
     }
 
     private boolean isValidTime() {

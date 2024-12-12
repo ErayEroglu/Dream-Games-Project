@@ -21,4 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                @Param("abTestGroup") User.ABTestGroup abTestGroup,
                                @Param("rejectedUserIds") List<Long> rejectedUserIds,
                                @Param("pendingUserIds") List<Long> pendingUserIds);
+
+    @Query("SELECT u FROM User u " +
+            "ORDER BY u.level DESC " +
+            "LIMIT 100 " )
+    List<User> findTop100Users();
 }

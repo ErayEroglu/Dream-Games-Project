@@ -1,5 +1,6 @@
 package com.dreamgames.backendengineeringcasestudy.model;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import jakarta.persistence.*;
 
 import java.util.Random;

@@ -44,7 +44,7 @@ public class PartnershipService {
         userRepository.save(sender);
         userRepository.save(receiver);
 
-        partnership.setStatus(Partnership.PartnershipStatus.ACCEPTED);
+        partnership.updateStatus(Partnership.PartnershipStatus.ACCEPTED);
         partnershipRepository.save(partnership);
 
         List<Partnership> pendingPartnershipsForReceiver = getPendingPartnerships(receiverId);

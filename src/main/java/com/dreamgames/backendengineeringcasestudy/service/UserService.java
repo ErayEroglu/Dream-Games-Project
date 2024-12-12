@@ -7,7 +7,9 @@ import com.dreamgames.backendengineeringcasestudy.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -27,13 +29,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUserLevel(Long userId) {
+    public Map<String, Object> updateUserLevel(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setLevel(user.getLevel() + 1);
         user.setCoins(user.getCoins() + 100);
-
-        return userRepository.save(user);
+        userRepository.save(user);
+        Map<String, Object> response = new HashMap<>();
+        response.put("level", user.getLevel());
+        response.put("coins", user.getCoins());
+        return response;
     }
 
     // used for testing purposes
@@ -109,13 +114,16 @@ public class UserService {
         return userRepository.findSuggestions(userId, user.getAbTestGroup(), rejectedUserIds, pendingUserIds);
     }
 
-    public void updateBalloonProgress(Long userId, int progress) {
+    public Partnership updateBalloonProgress(Long userId, int progress) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Optional<Partnership> acceptedPartnership = partnershipRepository.findAcceptedPartnership(userId);
         if (acceptedPartnership.isEmpty())
             throw new IllegalArgumentException("No accepted partnership found, to update the balloon progress there " +
                     "should be an accepted partnership");
+
+        if (progress > user.getHeliumCount())
+            throw new IllegalArgumentException("User does not have enough helium to update the balloon progress");
 
         Partnership partnership = acceptedPartnership.get();
         partnership.setBalloonProgress(partnership.getBalloonProgress() + progress);
@@ -131,6 +139,31 @@ public class UserService {
              claimReward(receiver.getId());
         }
         partnershipRepository.save(partnership);
+        return partnership;
+    }
+
+    public Map<String, Object> getBalloonsInfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Optional<Partnership> acceptedPartnership = partnershipRepository.findAcceptedPartnership(userId);
+        if (acceptedPartnership.isEmpty())
+            throw new IllegalArgumentException("No accepted partnership found, to get the balloons info there " +
+                    "should be an accepted partnership");
+
+        Partnership partnership = acceptedPartnership.get();
+        Map<String, Object> response = new HashMap<>();
+        response.put("inflatingScore", partnership.getBalloonProgress());
+        response.put("inflationThreshold", partnership.getInflationThreshold());
+        response.put("unusedHeliumCount", user.getHeliumCount());
+        response.put("partnerDetails", Map.of(
+                "senderId", partnership.getSender().getId(),
+                "receiverId", partnership.getReceiver().getId()
+        ));
+        return response;
+    }
+
+    public List<User> getLeaderboard() {
+        return userRepository.findTop100Users();
     }
 
     private int calculateReward(User.ABTestGroup group) {
