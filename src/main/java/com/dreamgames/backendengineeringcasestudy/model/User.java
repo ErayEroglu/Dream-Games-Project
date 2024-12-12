@@ -46,10 +46,6 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Integer getLevel() {
         return level;
     }
@@ -70,20 +66,12 @@ public class User {
         return abTestGroup;
     }
 
-    public void setABTestGroup(ABTestGroup abTestGroup) {
-        this.abTestGroup = abTestGroup;
-    }
-
     public Integer getHeliumCount() {
         return heliumCount;
     }
 
     public void setHeliumCount(Integer heliumCount) {
         this.heliumCount = heliumCount;
-    }
-
-    public Long getPartnerID() {
-        return partnerID;
     }
 
     public void setPartnerID(Long partnerID) {
