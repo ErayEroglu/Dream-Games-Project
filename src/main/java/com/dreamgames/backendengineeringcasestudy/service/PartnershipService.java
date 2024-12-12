@@ -83,6 +83,7 @@ public class PartnershipService {
         partnershipRepository.delete(partnership);
     }
 
+    // use this when the limited event is over
     public void resetAllPartnerships() {
         partnershipRepository.deleteAll();
     }
@@ -98,9 +99,4 @@ public class PartnershipService {
     private Optional<Partnership> findPartnership(User sender, User receiver) {
         return partnershipRepository.findBySenderAndReceiver(sender, receiver);
     }
-
-    //TODO: Implement the following methods:
-    // show 10 suggestions for a user
-    // add session logic for a partnership
-    // balloon progress for a user ??? might be an another class and table
 }

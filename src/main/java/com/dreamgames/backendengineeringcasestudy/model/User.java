@@ -1,6 +1,5 @@
 package com.dreamgames.backendengineeringcasestudy.model;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import jakarta.persistence.*;
 
 import java.util.Random;
@@ -26,7 +25,7 @@ public class User {
     @Column
     private Integer heliumCount = 0;
 
-    @Column(nullable = true)
+    @Column
     private Long partnerID;
 
     // Enum for A/B Test Groups

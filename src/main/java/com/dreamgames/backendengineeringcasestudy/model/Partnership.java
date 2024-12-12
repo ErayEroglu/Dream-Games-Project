@@ -29,7 +29,7 @@ public class Partnership {
         REJECTED
     }
 
-    @Column(nullable = true)
+    @Column
     private int balloonProgress;
 
     private int inflationThreshold;
@@ -41,7 +41,6 @@ public class Partnership {
     }
 
     public Partnership(User sender, User receiver, PartnershipStatus status) {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         if (!isValidTime()) {
             throw new IllegalArgumentException("Partnerships can only exist during sessions. Sessions start at 08:00 and end at 22:00 UTC");
         }
