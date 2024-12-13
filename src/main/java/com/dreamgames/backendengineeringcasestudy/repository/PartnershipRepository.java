@@ -33,6 +33,6 @@ import java.util.Optional;
     @Query( "SELECT p " +
             "FROM Partnership p WHERE " +
             "(p.sender.id = :userId OR p.receiver.id = :userId) " +
-            "AND p.status = 'ACCEPTED'")
+            "AND p.status = 'ACCEPTED' ORDER BY p.id DESC LIMIT 1")
     Optional<Partnership> findAcceptedPartnership(@Param("userId") Long userId);
 }

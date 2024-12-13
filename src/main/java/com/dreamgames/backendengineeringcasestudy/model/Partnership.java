@@ -1,9 +1,6 @@
 package com.dreamgames.backendengineeringcasestudy.model;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 @Entity
 @Table(name = "partnerships")
 public class Partnership {
@@ -43,12 +40,28 @@ public class Partnership {
         this.status = status;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public User getSender() {
         return sender;
     }
 
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
     public User getReceiver() {
         return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public PartnershipStatus getStatus() {
@@ -69,6 +82,10 @@ public class Partnership {
 
     public int getInflationThreshold() {
         return inflationThreshold;
+    }
+
+    public void setInflationThreshold(int inflationThreshold) {
+        this.inflationThreshold = inflationThreshold;
     }
 
     @Override

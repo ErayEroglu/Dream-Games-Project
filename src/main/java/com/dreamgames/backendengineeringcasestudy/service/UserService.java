@@ -7,10 +7,7 @@ import com.dreamgames.backendengineeringcasestudy.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -75,10 +72,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Partnership getInvitation(Long userId) {
+    public Partnership getInvitations(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        List<Partnership> allPartnerships = partnershipRepository.findByReceiver(user);
+        List<Partnership> allPartnerships = new ArrayList<>(partnershipRepository.findByReceiver(user));
         allPartnerships.removeIf(partnership -> partnership.getStatus()
                 != Partnership.PartnershipStatus.PENDING);
         if (allPartnerships.isEmpty() ){

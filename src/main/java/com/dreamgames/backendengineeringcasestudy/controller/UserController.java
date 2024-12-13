@@ -37,9 +37,9 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @GetMapping("/get-invitation/{userId}")
+    @GetMapping("/get-invitations/{userId}")
     public ResponseEntity<Partnership>  getInvitations(@PathVariable Long userId) {
-         Partnership partnership = userService.getInvitation(userId);
+        Partnership partnership = userService.getInvitations(userId);
         return ResponseEntity.ok(partnership);
     }
 

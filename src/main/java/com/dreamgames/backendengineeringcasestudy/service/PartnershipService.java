@@ -98,11 +98,11 @@ public class PartnershipService {
         partnershipRepository.deleteAll();
     }
 
-    private boolean isNotaValidTime() {
+    public boolean isNotaValidTime() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         int hour = now.getHour();
-//        return hour >= 8 && hour <= 22;
-        return true; //TODO: Remove the comments in production
+        return hour < 8 || hour > 22;
+        //return false; //TODO: Remove the comments in production
     }
 
     private Optional<Partnership> findPartnership(Long senderId, Long receiverId) {
