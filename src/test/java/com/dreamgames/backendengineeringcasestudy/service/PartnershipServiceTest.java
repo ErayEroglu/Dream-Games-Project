@@ -38,13 +38,6 @@ class PartnershipServiceTest {
         receiver.setId(2L);
         Partnership partnership = new Partnership(sender, receiver, Partnership.PartnershipStatus.PENDING);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(sender));
-        when(userRepository.findById(2L)).thenReturn(Optional.of(receiver));
-        when(partnershipRepository.findBySenderAndReceiver(sender, receiver)).thenReturn(Optional.of(partnership));
-        when(partnershipRepository.findAcceptedPartnership(1L)).thenReturn(Optional.empty());
-        when(partnershipRepository.findAcceptedPartnership(2L)).thenReturn(Optional.empty());
-
-
         if (LocalDateTime.now(ZoneOffset.UTC).getHour() < 8 || LocalDateTime.now(ZoneOffset.UTC).getHour() > 22) {
             assertThrows(IllegalArgumentException.class, () -> partnershipService.acceptPartnership(1L, 2L));
         } else {
@@ -66,14 +59,14 @@ class PartnershipServiceTest {
         receiver.setId(2L);
         Partnership partnership = new Partnership(sender, receiver, Partnership.PartnershipStatus.PENDING);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(sender));
-        when(userRepository.findById(2L)).thenReturn(Optional.of(receiver));
-        when(partnershipRepository.findBySenderAndReceiver(sender, receiver)).thenReturn(Optional.of(partnership));
+        if (LocalDateTime.now(ZoneOffset.UTC).getHour() < 8 || LocalDateTime.now(ZoneOffset.UTC).getHour() > 22) {
+            assertThrows(IllegalArgumentException.class, () -> partnershipService.rejectPartnership(1L, 2L));
+        } else {
+            partnershipService.rejectPartnership(1L, 2L);
 
-        partnershipService.rejectPartnership(1L, 2L);
-
-        assertEquals(Partnership.PartnershipStatus.REJECTED, partnership.getStatus());
-        verify(partnershipRepository, times(1)).save(partnership);
+            assertEquals(Partnership.PartnershipStatus.REJECTED, partnership.getStatus());
+            verify(partnershipRepository, times(1)).save(partnership);
+        }
     }
 
     @Test
