@@ -11,6 +11,10 @@ services:
       - '8080:8080'
     networks:
       - 'local-network'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/DREAM_GAMES_PROJECT
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: fistik2879
 
   mysqldb:
     image: mysql:8.0.35-oracle
