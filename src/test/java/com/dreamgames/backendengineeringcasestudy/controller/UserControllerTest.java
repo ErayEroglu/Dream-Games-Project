@@ -138,7 +138,6 @@ class UserControllerTest {
 
     @Test
     void getLeaderboard() throws Exception {
-        User user = new User();
         List<Map<String, Object>> users = Collections.singletonList(Map.of("level", 1, "coins", 100));
         Mockito.when(userService.getLeaderboard()).thenReturn(users);
 
