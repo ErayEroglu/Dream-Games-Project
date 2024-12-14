@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,12 +41,12 @@ class UserRepositoryTest {
 
     @Test
     void findTop100Users() {
-        List<User> topUsers = userRepository.findTop100Users();
+        List<Map<String, Object>> topUsers = userRepository.findTop100Users();
 
         assertNotNull(topUsers);
         assertTrue(topUsers.size() <= 100);
         for (int i = 1; i < topUsers.size(); i++) {
-            assertTrue(topUsers.get(i - 1).getLevel() >= topUsers.get(i).getLevel());
+            assertTrue(Integer.parseInt(topUsers.get(i - 1).get("level").toString()) >= Integer.parseInt(topUsers.get(i).get("level").toString()));
         }
     }
 }

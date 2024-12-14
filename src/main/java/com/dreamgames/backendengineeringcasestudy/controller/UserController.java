@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/create-user")
     public ResponseEntity<User> createUser() {
         User newUser = userService.createUser();
         return ResponseEntity.ok(newUser);
@@ -56,18 +56,13 @@ public class UserController {
     }
 
     @GetMapping("/get-leaderboard")
-    public ResponseEntity<List<User>> getLeaderboard() {
-        List<User> leaderboard = userService.getLeaderboard();
+    public ResponseEntity<List<Map<String, Object>>> getLeaderboard() {
+        List<Map<String, Object>> leaderboard = userService.getLeaderboard();
         return ResponseEntity.ok(leaderboard);
     }
 
     @PutMapping("/level-up/{userId}")
     public ResponseEntity<Map<String,Object>> updateUserLevel(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.updateUserLevel(userId));
-    }
-
-    @PutMapping("/set-coin/{userId}")
-    public ResponseEntity<Map<String,Object>> updateUserCoin(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.updateUserLevel(userId));
     }
 

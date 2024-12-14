@@ -102,6 +102,9 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        if (user.getLevel() < 50 || user.getCoins() < 2500)
+            throw new IllegalArgumentException("User does not meet the requirements to get suggestions");
+
         Optional<Partnership> acceptedPartnership = partnershipRepository.findAcceptedPartnership(userId);
         if (acceptedPartnership.isPresent())
             throw new IllegalArgumentException("User already has a partner");
@@ -159,7 +162,7 @@ public class UserService {
         return response;
     }
 
-    public List<User> getLeaderboard() {
+    public List<Map<String, Object>> getLeaderboard() {
         return userRepository.findTop100Users();
     }
 

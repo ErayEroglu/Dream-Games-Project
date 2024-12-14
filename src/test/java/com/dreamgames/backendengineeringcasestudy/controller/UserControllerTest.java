@@ -46,7 +46,7 @@ class UserControllerTest {
         User user = new User();
         Mockito.when(userService.createUser()).thenReturn(user);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/users/create-user")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -139,7 +139,7 @@ class UserControllerTest {
     @Test
     void getLeaderboard() throws Exception {
         User user = new User();
-        List<User> users = Collections.singletonList(user);
+        List<Map<String, Object>> users = Collections.singletonList(Map.of("level", 1, "coins", 100));
         Mockito.when(userService.getLeaderboard()).thenReturn(users);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/users/get-leaderboard")
@@ -186,23 +186,6 @@ class UserControllerTest {
 
         assertEquals(expectedResponseBody, actualResponseBody);
         verify(userService).updateUserCoin(1L, 50);
-    }
-
-    @Test
-    void testUpdateUserCoin() throws Exception {
-        Map<String, Object> response = Map.of("level", 2, "coins", 200);
-        Mockito.when(userService.updateUserLevel(anyLong())).thenReturn(response);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/users/set-coin/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        String expectedResponseBody = objectMapper.writeValueAsString(response);
-
-        assertEquals(expectedResponseBody, actualResponseBody);
-        verify(userService).updateUserLevel(1L);
     }
 
     @Test

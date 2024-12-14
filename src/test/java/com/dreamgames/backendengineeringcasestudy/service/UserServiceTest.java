@@ -143,9 +143,14 @@ class UserServiceTest {
         User receiver = new User();
         sender.setId(1L);
         sender.setAbTestGroup(User.ABTestGroup.GroupA);
+        sender.setLevel(50);
+        sender.setCoins(2600);
+
 
         receiver.setId(2L);
         receiver.setAbTestGroup(User.ABTestGroup.GroupA);
+        receiver.setLevel(50);
+        receiver.setCoins(2600);
 
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
             User user = invocation.getArgument(0);
@@ -168,6 +173,8 @@ class UserServiceTest {
     void getSuggestions() {
         User user = new User();
         user.setId(1L);
+        user.setLevel(50);
+        user.setCoins(2600);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(partnershipRepository.findAcceptedPartnership(1L)).thenReturn(Optional.empty());
         when(partnershipRepository.findRejectedPartnerships(1L)).thenReturn(List.of());
@@ -236,10 +243,10 @@ class UserServiceTest {
     @Test
     void getLeaderboard() {
         User user = new User();
-        when(userRepository.findTop100Users()).thenReturn(List.of(user));
-
-        List<User> leaderboard = userService.getLeaderboard();
-
+        user.setId(1L);
+        user.setLevel(10);
+        when(userRepository.findTop100Users()).thenReturn(List.of(Map.of("id", user.getId(), "level", user.getLevel())));
+        List<Map<String, Object>> leaderboard = userService.getLeaderboard();
         assertNotNull(leaderboard);
         assertFalse(leaderboard.isEmpty());
         verify(userRepository, times(1)).findTop100Users();
