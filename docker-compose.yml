@@ -12,26 +12,29 @@ services:
     networks:
       - 'local-network'
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/DREAM_GAMES_PROJECT
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/DREAM_GAMES_PROJECT
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: fistik2879
+    depends_on:
+      - mysqldb
+    command: [ "./wait-for-it.sh", "mysqldb:3306", "--", "java", "-jar", "app.jar" ] # Wait until MySQL is ready
 
   mysqldb:
     image: mysql:8.0.35-oracle
     container_name: case-mysqldb
     restart: always
     environment:
-      MYSQL_DATABASE: 'mysql-db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'DREAM_GAMES_PROJECT'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'fistik2879'
+      MYSQL_ROOT_PASSWORD: 'fistik2879'
     networks:
       - 'local-network'
     ports:
       - '3306:3306'
     volumes:
-      - case-mysql-data:/var/lib/case-mysqldb
-      - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro
+      - case-mysql-data:/var/lib/mysql # Use proper directory for MySQL data
+      - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro # Database dump for initialization
 
 volumes:
   case-mysql-data:
