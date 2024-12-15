@@ -39,7 +39,7 @@ The project can be run using Docker Compose after cloning the repository. To sta
 command in the root directory:
 
 ```bash
-   docker buildx build .
+   docker compose up --build
 ```
 
 This command will build the application and start the MySQL database and the application server. The application will be
