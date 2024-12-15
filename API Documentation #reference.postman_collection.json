@@ -1,0 +1,946 @@
+{
+  "info": {
+    "_postman_id": "22729792-7936-40b2-bbef-1a5a2a1e9c16",
+    "name": "API Documentation #reference",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37131064",
+    "_collection_link": "https://speeding-shuttle-11788.postman.co/workspace/e8c24bc2-6a62-41ed-9cbc-c82c86a97640/collection/37131064-22729792-7936-40b2-bbef-1a5a2a1e9c16?action=share&source=collection_link&creator=37131064"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create-User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/create-user",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "create-user"
+              ]
+            },
+            "description": "Creates a new User with a unique ID"
+          },
+          "response": [
+            {
+              "name": "Create-User",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/create-user",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "create-user"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": "{\n    \"id\": 30,\n    \"level\": 1,\n    \"coins\": 2000,\n    \"abTestGroup\": \"GroupB\",\n    \"heliumCount\": 0,\n    \"partnerID\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Send-Invitation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/users/send-invitation/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "send-invitation",
+                "{userId}"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Sends an invitation to one of the suggested Users. If the User (sender) is already in a partnership, the response code should be 500. Otherwise, the expected response code is 200."
+          },
+          "response": [
+            {
+              "name": "Send-Invitation",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/send-invitation/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "send-invitation",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Claim-Reward",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/claim-reward/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "claim-reward",
+                "{userId}"
+              ]
+            },
+            "description": "Claims the reward based on the assigned testing group"
+          },
+          "response": [
+            {
+              "name": "Claim-Reward",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/claim-reward/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "claim-reward",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"level\": 55,\n    \"coins\": 9500,\n    \"abTestGroup\": \"GroupB\",\n    \"heliumCount\": 900,\n    \"partnerID\": 2\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get-Invitations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/ get-invitations/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                " get-invitations",
+                "{userId}"
+              ]
+            },
+            "description": "Returns pending invitations for a user"
+          },
+          "response": [
+            {
+              "name": "Get-Invitations",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/get-invitations/8",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "get-invitations",
+                    "8"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 11,\n    \"sender\": {\n        \"id\": 10,\n        \"level\": 55,\n        \"coins\": 2100,\n        \"abTestGroup\": \"GroupB\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    },\n    \"receiver\": {\n        \"id\": 8,\n        \"level\": 55,\n        \"coins\": 2000,\n        \"abTestGroup\": \"GroupB\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    },\n    \"status\": \"PENDING\",\n    \"balloonProgress\": 0,\n    \"inflationThreshold\": 0\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get-Suggestions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/get-suggestions/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "get-suggestions",
+                "{userId}"
+              ]
+            },
+            "description": "Returns at most 10 available(users over level 50, having more than 500 coins and did not accept any partnerships yet) users from the same testing group.  \n  \nIf user doesn't meet the requirements to participate an event, the response would be 500 Internal Server Error."
+          },
+          "response": [
+            {
+              "name": "Get-Suggestions",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/get-suggestions/9",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "get-suggestions",
+                    "9"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 14,\n        \"level\": 70,\n        \"coins\": 2600,\n        \"abTestGroup\": \"GroupA\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    },\n    {\n        \"id\": 24,\n        \"level\": 92,\n        \"coins\": 2900,\n        \"abTestGroup\": \"GroupA\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    },\n    {\n        \"id\": 31,\n        \"level\": 56,\n        \"coins\": 5000,\n        \"abTestGroup\": \"GroupA\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    },\n    {\n        \"id\": 22,\n        \"level\": 54,\n        \"coins\": 2600,\n        \"abTestGroup\": \"GroupA\",\n        \"heliumCount\": 0,\n        \"partnerID\": null\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get-Balloons-Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/get/balloons-info/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "get",
+                "balloons-info",
+                "{userId}"
+              ]
+            },
+            "description": "Returns the pop the ballons event progress for a user"
+          },
+          "response": [
+            {
+              "name": "Get-Balloons-Info",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/get/balloons-info/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "get",
+                    "balloons-info",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"inflationThreshold\": 1500,\n    \"inflatingScore\": 100,\n    \"unusedHeliumCount\": 900,\n    \"partnerDetails\": {\n        \"senderId\": 1,\n        \"receiverId\": 12\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get-Leaderboard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/get-leaderboard",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "get-leaderboard"
+              ]
+            },
+            "description": "Gets information about the authenticated user."
+          },
+          "response": [
+            {
+              "name": "Get-Leaderboard",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/get-leaderboard",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "get-leaderboard"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"level\": 62,\n        \"id\": 7\n    },\n    {\n        \"id\": 1,\n        \"level\": 56\n    },\n    {\n        \"level\": 55,\n        \"id\": 2\n    },\n    {\n        \"level\": 55,\n        \"id\": 3\n    },\n    {\n        \"level\": 55,\n        \"id\": 4\n    },\n    {\n        \"level\": 55,\n        \"id\": 5\n    },\n    {\n        \"level\": 55,\n        \"id\": 6\n    },\n    {\n        \"level\": 55,\n        \"id\": 8\n    },\n    {\n        \"id\": 9,\n        \"level\": 55\n    },\n    {\n        \"id\": 10,\n        \"level\": 55\n    },\n    {\n        \"id\": 11,\n        \"level\": 55\n    },\n    {\n        \"level\": 55,\n        \"id\": 12\n    },\n    {\n        \"level\": 1,\n        \"id\": 13\n    },\n    {\n        \"level\": 1,\n        \"id\": 14\n    },\n    {\n        \"id\": 15,\n        \"level\": 1\n    },\n    {\n        \"level\": 1,\n        \"id\": 16\n    },\n    {\n        \"level\": 1,\n        \"id\": 17\n    },\n    {\n        \"level\": 1,\n        \"id\": 18\n    },\n    {\n        \"level\": 1,\n        \"id\": 19\n    },\n    {\n        \"level\": 1,\n        \"id\": 20\n    },\n    {\n        \"level\": 1,\n        \"id\": 21\n    },\n    {\n        \"level\": 1,\n        \"id\": 22\n    },\n    {\n        \"level\": 1,\n        \"id\": 23\n    },\n    {\n        \"id\": 24,\n        \"level\": 1\n    },\n    {\n        \"id\": 25,\n        \"level\": 1\n    },\n    {\n        \"id\": 26,\n        \"level\": 1\n    },\n    {\n        \"id\": 27,\n        \"level\": 1\n    },\n    {\n        \"level\": 1,\n        \"id\": 28\n    },\n    {\n        \"level\": 1,\n        \"id\": 29\n    },\n    {\n        \"level\": 1,\n        \"id\": 30\n    },\n    {\n        \"id\": 31,\n        \"level\": 1\n    },\n    {\n        \"level\": 1,\n        \"id\": 32\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Level-Up",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/level-up/{userId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "level-up",
+                "{userId}"
+              ]
+            },
+            "description": "Levels up the user's level by 1."
+          },
+          "response": [
+            {
+              "name": "Level-Up",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/level-up/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "level-up",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"level\": 56,\n    \"coins\": 12600\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update-Coins",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/update-coins/{userId}/{amount}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "update-coins",
+                "{userId}",
+                "{amount}"
+              ]
+            },
+            "description": "Updates the user's coins by the provided amount."
+          },
+          "response": [
+            {
+              "name": "Update-Coins",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/update-coins/1/100",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "update-coins",
+                    "1",
+                    "100"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"level\": 56,\n    \"coins\": 12800,\n    \"abTestGroup\": \"GroupB\",\n    \"heliumCount\": 900,\n    \"partnerID\": 2\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update-Helium-Count",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/update-helium-count/{userId}/{amount}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "update-helium-count",
+                "{userId}",
+                "{amount}"
+              ]
+            },
+            "description": "Updates the user's helium count by the provided amount."
+          },
+          "response": [
+            {
+              "name": "Update-Helium-Count",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/update-helium-count/1/100",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "update-helium-count",
+                    "1",
+                    "100"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"level\": 56,\n    \"coins\": 12800,\n    \"abTestGroup\": \"GroupB\",\n    \"heliumCount\": 1000,\n    \"partnerID\": 2\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update-Balloon-Progress",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/update-balloon-progress/{userId}/{amount}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "update-balloon-progress",
+                "{userId}",
+                "{amount}"
+              ]
+            },
+            "description": "Updates the pop the balloon event progress by consuming the user's helium. If user does not have enough helium, the response will return a 500 Internal Service Error."
+          },
+          "response": [
+            {
+              "name": "Update-Balloon-Progress",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/users/update-balloon-progress/1/100",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "users",
+                    "update-balloon-progress",
+                    "1",
+                    "100"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"sender\": {\n        \"id\": 1,\n        \"level\": 56,\n        \"coins\": 12800,\n        \"abTestGroup\": \"GroupB\",\n        \"heliumCount\": 900,\n        \"partnerID\": 2\n    },\n    \"receiver\": {\n        \"id\": 12,\n        \"level\": 55,\n        \"coins\": 3500,\n        \"abTestGroup\": \"GroupB\",\n        \"heliumCount\": 0,\n        \"partnerID\": 1\n    },\n    \"status\": \"ACCEPTED\",\n    \"balloonProgress\": 200,\n    \"inflationThreshold\": 1500\n}"
+            }
+          ]
+        }
+      ],
+      "description": "The `/me` endpoints let you manage information about the authenticated user."
+    },
+    {
+      "name": "Partnerships",
+      "item": [
+        {
+          "name": "Accept-Partnership",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/partnerships/accept/{senderId}/{receiverId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "partnerships",
+                "accept",
+                "{senderId}",
+                "{receiverId}"
+              ]
+            },
+            "description": "Recievers can accept partnerships using this endpoint. If there is not a partnership request between those users, returns an Internal Server Error."
+          },
+          "response": [
+            {
+              "name": "Accept-Partnership",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/partnerships/accept/1/2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "partnerships",
+                    "accept",
+                    "1",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Reject-Partnership",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/partnerships/reject/{senderId}/{recieverId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "partnerships",
+                "reject",
+                "{senderId}",
+                "{recieverId}"
+              ]
+            },
+            "description": "Recievers can reject partnerships using this endpoint. If there is not a partnership request between those users, returns an Internal Server Error."
+          },
+          "response": [
+            {
+              "name": "Reject-Partnership",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/partnerships/reject/1/2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "partnerships",
+                    "reject",
+                    "1",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Cancel-Partnership-Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/partnerships/cancel/{senderId}/{recieverId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "partnerships",
+                "cancel",
+                "{senderId}",
+                "{recieverId}"
+              ]
+            },
+            "description": "Senders can cancel partnership requests using this endpoint. If there is not a partnership request between those users, returns an Internal Server Error."
+          },
+          "response": [
+            {
+              "name": "Cancel-Partnership-Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/partnerships/cancel/1/2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "partnerships",
+                    "cancel",
+                    "1",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Get-Pending-Partnership-Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/partnerships/pending/{receiverId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "partnerships",
+                "pending",
+                "{receiverId}"
+              ]
+            },
+            "description": "Users can see the list of pending partnership requests by using this endpoint."
+          },
+          "response": [
+            {
+              "name": "Get-Pending-Partnership-Requests",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/partnerships/pending/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "partnerships",
+                    "pending",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 16,\n        \"sender\": {\n            \"id\": 21,\n            \"level\": 1,\n            \"coins\": 2000,\n            \"abTestGroup\": \"GroupA\",\n            \"heliumCount\": 0,\n            \"partnerID\": 15\n        },\n        \"receiver\": {\n            \"id\": 14,\n            \"level\": 1,\n            \"coins\": 2000,\n            \"abTestGroup\": \"GroupA\",\n            \"heliumCount\": 0,\n            \"partnerID\": null\n        },\n        \"status\": \"PENDING\",\n        \"balloonProgress\": 0,\n        \"inflationThreshold\": 0\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Reset-Partnerships",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/partnerships/reset",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "partnerships",
+                "reset"
+              ]
+            },
+            "description": "This endpoint deletes all partnerships from the database. It can be used when the pop the balloon event ends."
+          },
+          "response": [
+            {
+              "name": "Reset-Partnerships",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/partnerships/reset",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "partnerships",
+                    "reset"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://farming-simulator.pstmn.io"
+    }
+  ]
+}
