@@ -45,8 +45,19 @@ command in the root directory:
 This command will build the application and start the MySQL database and the application server. The application will be
 available at `http://localhost:8080`.
 
-Important: You must use your own credentials for the MySQL database. To do this, please check docker-compose.yml and
-src/main/resources/application.properties file and update the environment variables for the MySQL service.
+Important: You must use your own credentials for the MySQL database. To do this, please create a `.env` file in the root
+with the following content:
+
+```bash
+ SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/DREAM_GAMES_PROJECT
+ SPRING_DATASOURCE_USERNAME=root
+ SPRING_DATASOURCE_PASSWORD=root1234
+ MYSQL_DATABASE=DREAM_GAMES_PROJECT
+ MYSQL_ROOT_PASSWORD=root1234
+
+```
+
+This is just an example. You can use your own credentials.
 
 ## API Documentation
 

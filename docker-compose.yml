@@ -12,9 +12,9 @@ services:
     networks:
       - 'local-network'
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/DREAM_GAMES_PROJECT
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: fistik2879
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     depends_on:
       - mysqldb
 
@@ -23,15 +23,15 @@ services:
     container_name: case-mysqldb
     restart: always
     environment:
-      MYSQL_DATABASE: 'DREAM_GAMES_PROJECT'
-      MYSQL_ROOT_PASSWORD: 'fistik2879' # Use only MYSQL_ROOT_PASSWORD for root user
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - 'local-network'
     ports:
       - '3308:3306'
     volumes:
-      - case-mysql-data:/var/lib/mysql # Use proper directory for MySQL data
-      - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro # Database dump for initialization
+      - case-mysql-data:/var/lib/mysql
+      - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro
 
 volumes:
   case-mysql-data:
