@@ -17,7 +17,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: fistik2879
     depends_on:
       - mysqldb
-    command: [ "./wait-for-it.sh", "mysqldb:3306", "--", "java", "-jar", "app.jar" ] # Wait until MySQL is ready
 
   mysqldb:
     image: mysql:8.0.35-oracle
@@ -25,13 +24,11 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'DREAM_GAMES_PROJECT'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'fistik2879'
-      MYSQL_ROOT_PASSWORD: 'fistik2879'
+      MYSQL_ROOT_PASSWORD: 'fistik2879' # Use only MYSQL_ROOT_PASSWORD for root user
     networks:
       - 'local-network'
     ports:
-      - '3306:3306'
+      - '3307:3306'
     volumes:
       - case-mysql-data:/var/lib/mysql # Use proper directory for MySQL data
       - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro # Database dump for initialization

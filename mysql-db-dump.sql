@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS partnerships (
                              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                              FOREIGN KEY (sender_id) REFERENCES users(id),
                              FOREIGN KEY (receiver_id) REFERENCES users(id)
-);
+) engine = InnoDB;
