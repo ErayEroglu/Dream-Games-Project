@@ -28,7 +28,7 @@ services:
     networks:
       - 'local-network'
     ports:
-      - '3307:3306'
+      - '3308:3306'
     volumes:
       - case-mysql-data:/var/lib/mysql # Use proper directory for MySQL data
       - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro # Database dump for initialization

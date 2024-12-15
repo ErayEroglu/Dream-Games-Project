@@ -12,6 +12,7 @@ import java.util.Map;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    // returns a list of users that do not have a partner and meting the requirements to participate a live event
     @Query("SELECT u FROM User u " +
             "WHERE u.abTestGroup = :abTestGroup " +
             "AND u.level >= 50 AND u.coins >= 2500 " +
@@ -24,6 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                @Param("rejectedUserIds") List<Long> rejectedUserIds,
                                @Param("pendingUserIds") List<Long> pendingUserIds);
 
+    // return the top 100 users based on their level
     @Query("SELECT u.id AS id, u.level AS level FROM User u " +
             "ORDER BY u.level DESC " +
             "LIMIT 100")

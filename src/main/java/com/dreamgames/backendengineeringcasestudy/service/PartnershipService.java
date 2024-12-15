@@ -21,6 +21,7 @@ public class PartnershipService {
         this.partnershipRepository = partnershipRepository;
     }
 
+    // accepts the partnership between two users
     public void acceptPartnership(Long senderId, Long receiverId) {
         if (isNotaValidTime()) {
             throw new IllegalArgumentException("Partnership can only be answered between 8:00 and 22:00");
@@ -60,6 +61,7 @@ public class PartnershipService {
         partnershipRepository.deleteAll(pendingPartnershipsForSender);
     }
 
+    // rejects the partnership between two users
     public void rejectPartnership(Long senderId, Long receiverId) {
         if (isNotaValidTime()) {
             throw new IllegalArgumentException("Partnership can only be answered between 8:00 and 22:00");
@@ -72,12 +74,14 @@ public class PartnershipService {
         partnershipRepository.save(partnership);
     }
 
+    // returns the pending partnerships for the user
     public List<Partnership> getPendingPartnerships(Long receiverId) {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
         return partnershipRepository.findByReceiverAndStatus(receiver, Partnership.PartnershipStatus.PENDING);
     }
 
+    // cancels the partnership request and deletes it from the db
     public void endPartnership(Long senderId, Long receiverId) {
         Partnership partnership = findPartnership(senderId, receiverId)
                 .orElseThrow(() -> new IllegalArgumentException("Partnership not found"));
@@ -98,13 +102,15 @@ public class PartnershipService {
         partnershipRepository.deleteAll();
     }
 
+    // the partnership can only exist during the live event
+    // which means the partnership can only exist between 8:00 and 22:00
     public boolean isNotaValidTime() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         int hour = now.getHour();
         return hour < 8 || hour > 22;
-        //return false; //TODO: Remove the comments in production
     }
 
+    // utility method to find the partnership between two users
     private Optional<Partnership> findPartnership(Long senderId, Long receiverId) {
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));

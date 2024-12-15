@@ -14,6 +14,7 @@ import java.util.Optional;
         List<Partnership> findByReceiverAndStatus(User receiver, Partnership.PartnershipStatus status);
         List<Partnership> findByReceiver(User user);
 
+    // returns the list of id of the users that have rejected partnership with the given user
     @Query("SELECT CASE " +
             "WHEN p.sender.id = :userId THEN p.receiver.id " +
             "WHEN p.receiver.id = :userId THEN p.sender.id END " +
@@ -22,6 +23,7 @@ import java.util.Optional;
             "AND p.status = 'REJECTED'")
     List<Long> findRejectedPartnerships(@Param("userId") Long userId);
 
+    // returns the list of id of the users that have pending partnership with the given user
     @Query("SELECT CASE " +
             "WHEN p.sender.id = :userId THEN p.receiver.id " +
             "WHEN p.receiver.id = :userId THEN p.sender.id END " +
@@ -30,6 +32,7 @@ import java.util.Optional;
             "AND p.status = 'PENDING'")
     List<Long> findPendingPartnerships(@Param("userId") Long userId);
 
+    // returns the accepted partnership with the given user
     @Query( "SELECT p " +
             "FROM Partnership p WHERE " +
             "(p.sender.id = :userId OR p.receiver.id = :userId) " +
